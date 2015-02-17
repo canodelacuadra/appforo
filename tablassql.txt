@@ -1,0 +1,16 @@
+CREATE TABLE `mensajes` (
+  `id` int(11) NOT NULL auto_increment,
+  `autor` varchar(255) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `mensaje` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE `respuestas` (
+  `id` int(11) NOT NULL auto_increment,
+  `autor` varchar(255) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `mensaje` text NOT NULL,
+  `respuestas` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
