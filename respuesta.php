@@ -1,16 +1,23 @@
 <?php
+include 'includes/header.php';
+?>
+<h1>Nueva Respuesta</h1>
+<?php
+//var_dump($_REQUEST);
 
 include('conectar.php'); //Incluimos el archivo conectar.php
 
-if(isset($_GET['id']))$get = $_GET['id']; //Definimos $_GET['id'] como $get
+if(isset($_GET['id']))$idcon = $_GET['id']; //Definimos $_GET['id'] como $idcon
 
-if (isset($_POST['enviar'])) { //Si se apretó el boton de enviar, grabamos los datos
+if (isset($_POST['enviar'])) { 
+	$autor=$_POST['autor'];
+	$titulo=$_POST['titulo'];
+	$mensaje=$_POST['mensaje'];
+$sqlres="INSERT INTO respuestas (autor , titulo , mensaje ,respuestas) VALUES ('$autor','$titulo','$mensaje','$_POST[get]')";
 
-$insert = "INSERT INTO respuestas (autor,titulo,mensaje,respuestas) VALUES ('".mysql_real_escape_string($_POST['autor'])."', '".mysql_real_escape_string($_POST['titulo'])."',' ".mysql_real_escape_string($_POST['mensaje'])."', '$_POST[get]')"; //Consulta para agregar el mensaje
+if (mysqli_query($conexion,$sqlres)) { //Si se agregó el mensaje correctamente le mostramos un mensaje
 
-if (mysql_query($insert)) { //Si se agregó el mensaje correctamente le mostramos un mensaje
-
-echo "Su mensaje ha sido agregado correctamente";
+echo "Su respuesta  ha sido añadida";
 
 } else { //Si no le mostramos el mensaje de error
 
@@ -20,16 +27,23 @@ echo "Hubo un error al agregar el mensaje";
 
 } else { //Si no se a pulsado el boton ENVIAR, mostramos el formulario
 
-echo "<form action='respuesta.php' method='POST'>
-Autor: <input type='text' name='autor'>
-<br>
-T&iacute;tulo: <input type='text' name='titulo'>
-<br>
-Mensaje: <textarea name='mensaje'></textarea>
-<br>
-<input type='submit' name='enviar' value='Enviar mensaje'>
-<input type='hidden' value='$get' name='get'>"; //Formulario, usamos un input hidden para mandar el valor de GET
+?>
+<form class='form' action='respuesta.php' method='POST'>
+<div class="form-group">
+<label>Autor: </label><input class='form-control' type='text' name='autor'>
+</div>
 
+<div class="form-group">
+<label>Asunto Respuesta: </label><input class='form-control' type='text' name='titulo'></div>
+
+<div class="form-group">
+<label>Respuesta:</label> <textarea class='form-control'name='mensaje'></textarea>
+</div>
+
+<input class='btn btn-primary' type='submit' name='enviar' value='Responder'>
+<input type='hidden' value='<?=$idcon// lo utilizamos para mandar el id por get ?>' name='get'>
+</form>
+<?php
 }
 
 ?>

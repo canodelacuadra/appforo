@@ -1,43 +1,45 @@
 <?php
+include 'includes/header.php';
+?>
+<h1>Hilos de la Conversacion</h1>
+<?php
 
-include('conectar.php'); //Incluimos el archivo conectar.php
+include('conectar.php');
+//Primero buscamos el mensaje del que dependen los hilos...
+$idcon = $_GET['id']; //Definimos $_GET['id'] como $idme id del mensajeee
+$sqlconver="SELECT * FROM conversaciones WHERE id = '$idcon'";
 
-$get = $_GET['id']; //Definimos $_GET['id'] como $get
+$conversacion = mysqli_query($conexion,$sqlconver); 
+//Consulta a la base de datos para mostrar los mensajes ordenados por ID y en orden desendente donde la ID es igual a la enviada por $_GET
 
-$seleccionar = mysql_query("SELECT * FROM mensajes WHERE id = '$get'"); //Acemos la consulta a la base de datos para mostrar los mensajes ordenados por ID y en orden desendente donde la ID es igual a la enviada por $_GET
+$fila = mysqli_fetch_array($conversacion); //Extraemos los resultados para mostrarlos
 
-$row = mysql_fetch_array($seleccionar); //Extraemos los resultados para mostrarlos
 
-echo "<a href='respuesta.php?id=$get'><b>RESPONDER</b></a>
-<br><br>";
 
-echo "<b>T&iacute;tulo:</b> <i>$row[titulo]</i>
-<br>
-<b>Mensaje:</b>
-<br>
-$row[mensaje]
-<br>
-<b>Enviado por:</b> <i>$row[autor]</i>"; //Mostramos los datos ordenados
+echo "<div class=''>Tema Propuesto: $fila[titulo]</div>";
+echo "<div class=''>Propuesta: $fila[mensaje]</div>";
+echo "<div class=''>Iniciado por: $fila[autor]</div>";
+echo "<div class=''><a  class='btn btn-success'href='respuesta.php?id=$idcon'>AÑADIR RESPUESTA</a></div>";
+// Recogemos todas las respuestas que ya existen referentes al hilo
+$sqlrespuestas="SELECT * FROM respuestas WHERE respuestas = '$idcon' ORDER BY id DESC";
+$respuestas = mysqli_query($conexion,$sqlrespuestas);
 
-$seleccionar1 = mysql_query("SELECT * FROM respuestas WHERE respuestas = '$get' ORDER BY id DESC");
+if (mysqli_num_rows($respuestas)>0){
+	echo "<h2>Respuestas</h2>";
+	while($filar = mysqli_fetch_array($respuestas)){
+		
+		echo "<p>Título:$filar[titulo]</p>";
+		echo "<p>Título:$filar[mensaje]</p>";
+		echo "<p>Título:$filar[autor]</p>";
+		echo "<hr>";
+		}
 
-if (mysql_num_rows($seleccionar1) or die (mysql_error())) { //Si hay respuestas mostramos los datos ordenados
+	}	 
+else { 
+	echo "<div class='well'>Aún no tenemos respuestas en esta conversación, contesta si quieres.</div>";
+	}
 
-$row1 = mysql_fetch_array($seleccionar1);
 
-echo "<hr>";
-
-echo "<b>T&iacute;tulo:</b> <i>$row1[titulo]</i>
-<br>
-<b>Mensaje:</b>
-<br>
-$row1[mensaje]
-<br>
-<b>Enviado por:</b> <i>$row1[autor]</i>"; //Mostramos los datos ordenados
-
-echo "<br><br>
-<a href='respuesta.php?id=$get'><b>RESPONDER</b></a>";
-
-} //Si no hay respuestas, no se mostrará nada 
-
+ 
+include 'includes/footer.php';
 ?>

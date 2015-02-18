@@ -1,22 +1,25 @@
+
 <?php
+include 'includes/header.php';
+?>
+<h1>Pequeña aplicación de Foro</h1>
+<h2>Conversaciones:<span class='pull-right'><a class='btn btn-success' href="conversaciones.php">Crear conversación</a></span></h2>
+
+<?php
+
 include('conectar.php'); //Incluimos el archivo conectar.php
 
-echo "<b><a href='nuevo.php'>Dejar un Mensaje</a></b><br><hr>"; //Boton para dejar mensaje
-
-$seleccionar = mysql_query("SELECT * FROM mensajes ORDER BY id ASC"); //Acemos la consulta a la base de datos para mostrar los mensajes ordenados por ID y en orden asendente
-if (mysql_num_rows($seleccionar)) { //Si hay contenido en la DB continuamos con while
-
-while ($row = mysql_fetch_array($seleccionar)) { //Hacemos un bucle para que nos muestre todos los mensajes
-
-echo "<b><a href='mensajes.php?id=$row[id]'>$row[titulo]</a></b>"; //Mostramos el título con un enlace al mensaje y sus respuestas
-echo "<br><hr>"; //Bajamos un renglon y creamos una linea 
-
-}
-
-} else { //Si no hay ningún mensaje en la DB mostramos lo siguiente
-
-echo "Nuestro foro no posee mensaje alguno";
-
-}
+$sql="SELECT * FROM conversaciones ORDER BY id ASC";
+$resultado = mysqli_query($conexion,$sql);
+	if (mysqli_num_rows($resultado)>0) { 
+		echo '<ol>';
+		while ($fila = mysqli_fetch_array($resultado)) { 
+		echo "<li><a href='mensajes.php?id=$fila[id]'>$fila[titulo]</a></li>"; //Mostramos el título con un enlace al mensaje y sus respuestas
+		}
+		echo'</ol>';
+	} else { 
+	echo "<div class='well'>Aún no tenemos conversaciones, crea una...</div>";
+	}
+include 'includes/footer.php';
 
 ?>
