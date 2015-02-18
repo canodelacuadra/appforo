@@ -2,7 +2,7 @@
 <?php
 include 'includes/header.php';
 ?>
-<h1>Pequeña aplicación de Foro</h1>
+<h1>Foro Desarrollo Web</h1>
 <h2>Conversaciones:<span class='pull-right'><a class='btn btn-success' href="conversaciones.php">Crear conversación</a></span></h2>
 
 <?php
