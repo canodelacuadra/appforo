@@ -1,6 +1,5 @@
 <?php
-/** SISTEMA DE FOROS SIMPLE José Antonio Cano **/
-/** ESTE SISTEMA DE FOROS ES ÚNICAMENTE para principiantes **/
+/** Página modelo de conexión**/
 
 $db_host = ('localhost'); //Nombre del servidor MySQL, por defecto localhost
 $db_user = ('root'); //Usuario de la base de datos
@@ -11,5 +10,5 @@ if (!$conexion) {
     die("Fallo de conexión: " . mysqli_connect_error());
 } //Conectamos a la base de datos
 
-mysqli_set_charset($conexion,'utf-8');
+mysqli_set_charset($conexion,'utf8');
 ?>
